@@ -157,6 +157,7 @@ C=25*[1]+25*[-1]
 
 s = Net(E,C) 
 print s.out([6,-2])
+print s.out([6,6])
 #s.PLA(10000,0)
 #print s.neu
 #s.out([6,2])

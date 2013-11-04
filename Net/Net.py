@@ -17,15 +17,27 @@ class Net:
         self.perc.append(Perceptron(np.random.randn(3)))
         P = self.PLA(1000,0)
         
+        self.neu += [[[0,1],[0],0]]
+        self.perc.append(Perceptron(np.random.randn(4)))
+        print self.neu
+        self.PLA(1000,1)
         
-        print "*", self.perc, "*"
+        self.neu += [[[0,1],[0,1],0]]
+        self.perc.append(Perceptron(np.random.randn(5)))
+        print self.neu
+        self.PLA(1000,2)
+        
+        #self.perc.append(Perceptron(np.random.randn(3)))
+        
+        print "*", self.perc[0].wagi, "*"
+        print "*", self.perc[1].wagi, "*"
         
         #for i,j in Edges:
          #   self.neu[j][1].append(i)
             
     def out(self,X):
         for l,i in enumerate(self.neu):
-            print i[1]
+          #  print i[1]
             S = [1]
             for u in i[0]:
                 S.append(X[u])
@@ -33,8 +45,9 @@ class Net:
                 S.append(self.neu[u][2])
                 
             #S = [1]+i[0]+i[1]
-            #print S
+            
             self.neu[l][2]=self.perc[l].out(S)
+            print S, self.neu[l][2]
         return self.neu[len(self.neu)-1][2]
             #print self.neu
             #print i[0]
@@ -45,7 +58,7 @@ class Net:
         t=0
         tmax=0
         s = 1+len(self.neu[i][0])+len(self.neu[i][1])
-        print s
+        #print s
         
         max_ = w=np.random.randn(s)
     
@@ -150,14 +163,23 @@ Y = np.random.randn(25)-3
 X2 = np.random.randn(25)+4
 Y2 = np.random.randn(25)+5
 
-E=zip(X,Y)+zip(X2,Y2)
-C=25*[1]+25*[-1]
+X3 = np.random.randn(25)-4
+Y3 = np.random.randn(25)+5
+
+X4 = np.random.rand(25)-4
+Y4 = np.random.rand(25)-3
+
+E=zip(X,Y)+zip(X2,Y2)+zip(X3,Y3)+zip(X4,Y4)
+C=25*[1]+25*[-1]+25*[1]+25*[-1]
 
 
 
 s = Net(E,C) 
-print s.out([6,-2])
-print s.out([6,6])
+Out = map(lambda x:s.out(x),E)
+print C
+print Out
+
+
 #s.PLA(10000,0)
 #print s.neu
 #s.out([6,2])

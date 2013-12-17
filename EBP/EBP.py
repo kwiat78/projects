@@ -224,71 +224,38 @@ class Net:
             self.d=[]
             u = np.random.randint(0,len(E))
             o = self.out_m(E[u])
-            
-           # print "^^", self.o
-            
+                        
             err = o-C[u]
             delta = err*o*(1-o)
             self.d =[delta]
-            #print delta
+            
             
             
             #for oo,l in enumerate(reversed(self.layers)):
             for oo in xrange(self.length,0,-1):
                 
- #               for ooo in  self.o:
-#                    print ooo
-                
-                #print oo
-                
-                
-                #print oo
-                #print "(",delta , self.layers[oo].transpose() ,")"#,delta ,")"
-                #err = np.dot(delta,self.layers[oo].transpose())
-                
-                #print "d_t" , delta.transpose()
-                #print "l_",oo,self.layers[oo].transpose()
+ 
                 
                 err = np.dot(delta.transpose(),self.layers[oo].transpose())
-                
                 err = np.array([err[0].take(range(1,len(err[0])))])
-                
-                
-                
-                #print "err", err
-                #print err
-                #print self.length
-                #print oo
-                #print
-                """!!!!!""" 
+       
                 y = self.o[oo-1]
-                #y = self.o[oo]
-               # print "err", err
-                #print "y", y
-                
+         
                 delta = err.transpose()* y*(1-y)
-                #print "delta", delta
-                #delta = delta.transpose()
-                #delta = np.array([delta.take(range(1,len(delta[0])))])
-                #delta = delta.transpose()
+                
                 self.d = [delta] +self.d 
-                #print delta
-            #print self.d
-         #   print self.d
-            
-            
+                
             
             for i,l in enumerate(self.layers):
-              #   print i
-                #print (self.d[i],self.i[i].transpose())
-                 self.layers[i] -= 0.01*np.dot(self.d[i],self.i[i].transpose()).transpose()
-   
+            
+                 self.layers[i] -= 0.1*np.dot(self.d[i],self.i[i].transpose()).transpose()
+           
     
 d = []
 for i in range(11):
     d.append(i*np.pi/10.)
 d*=10
-print d
+
 
 e = []
 for i in range(11):
@@ -305,60 +272,31 @@ A = np.array(d)
 B = np.array(e)  
 
 
-A = np.random.rand(10)*np.pi
+#A = np.random.rand(10)*np.pi
 
-B = np.random.rand(10)*2*np.pi
+#B = np.random.rand(10)*2*np.pi
 
 Out = map(lambda x,y:rotate(np.array([[0],[0]]),100,50,x,y),A,B)
 
 print Out
-#print In
-#print Ou
 
 
-IA = A/np.pi/2*0.8+0.1
-IB = B/np.pi/2*0.8+0.1
+
+IA = A/(np.pi*2)*0.8+0.1
+IB = B/(np.pi*2)*0.8+0.1
 I = map(lambda x,y:np.array([[x],[y]]),IA,IB)
-I1 = map(lambda x,y:np.array([[x]]),IA,IB)
-I2 = map(lambda x,y:np.array([[y]]),IA,IB)
-#II = map(lambda x,y:[x,y],IA,IB)
 
-
-
-N = Net([2,6,3,2])
+N = Net([2,5,3,2])
    
-N.lern(Out,I,4800000)
-O2 = map(lambda x:N.out_m(x),Out)
-print "O2",O2
-
-#print  "Out2",Out2
-
-#N2 = Net([3,10,12,14,1])
-#N2.lern(Out2,I2,1000000,0.1)
+N.lern(Out,I,100000)
 
 
-#print Out
-
-#O =np.array(map(lambda x:x.tolist(),I))
-print Out
-#O2 =map(lambda x:math.floor(N.out(x)[2]*1000),Out)
-#print len(O2)
-#print len(set(O2))
-#O3 =(map(lambda x:[N.out(x).tolist()[1],N.out(x).tolist()[2]],Out))
-#print I
-
-#print Out
-
-#print O3
 
 U = np.array(range(0,len(W)))
 
-#print S
-#print W
+
 plt.subplot(311)
 plt.plot(U,W,)
-
-
 
 U = np.array(range(0,len(A)))
 S = map(lambda x:x[0][0],I)
